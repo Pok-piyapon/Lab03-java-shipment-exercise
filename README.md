@@ -1,11 +1,11 @@
-#  java-shipment-exercise
+# 📦 java-shipment-exercise
 
 แบบฝึกหัด Java OOP — ระบบคำนวณค่าขนส่ง Shipment  
 วิชา Object-Oriented Programming | ปีการศึกษา 2569
 
 ---
 
-## คำอธิบายโจทย์
+## 📋 คำอธิบายโจทย์
 
 บริษัทขนส่งแห่งหนึ่งมีรายการ **Shipment** หลายรายการ  
 ให้เขียนโปรแกรม Java คำนวณค่าขนส่งตามน้ำหนักและประเภท แล้วแสดงยอดรวม
@@ -23,10 +23,15 @@
 
 ```
 java-shipment-exercise/
-├── ShipmentSection1_Exercise.java
-├── ShipmentSection2_Exercise.java
-├── ShipmentSection3_Exercise.java
-├── ShipmentSection4_Exercise.java
+├── pom.xml                              ← Maven config (JUnit 5)
+├── src/
+│   ├── main/java/com/example/
+│   │   ├── ShipmentSection1_Exercise.java
+│   │   ├── ShipmentSection2_Exercise.java
+│   │   ├── ShipmentSection3_Exercise.java
+│   │   └── ShipmentSection4_Exercise.java
+│   └── test/java/com/example/
+│       └── ShipmentTest.java            ← JUnit 5 test cases
 ├── ExpectedOutput_Section1.md
 ├── ExpectedOutput_Section2.md
 ├── ExpectedOutput_Section3.md
@@ -65,13 +70,13 @@ cd java-shipment-exercise
 อาจารย์จะแจ้งว่าให้ทำ Section ใด (1, 2, 3 หรือ 4)
 
 ```
-Section 1 → ShipmentSection1_Exercise.java + ExpectedOutput_Section1.md
-Section 2 → ShipmentSection2_Exercise.java + ExpectedOutput_Section2.md
-Section 3 → ShipmentSection3_Exercise.java + ExpectedOutput_Section3.md
-Section 4 → ShipmentSection4_Exercise.java + ExpectedOutput_Section4.md
+Section 1 → src/main/java/com/example/ShipmentSection1_Exercise.java
+Section 2 → src/main/java/com/example/ShipmentSection2_Exercise.java
+Section 3 → src/main/java/com/example/ShipmentSection3_Exercise.java
+Section 4 → src/main/java/com/example/ShipmentSection4_Exercise.java
 ```
 
-เปิด `ExpectedOutput` ของ Section นั้นไว้คู่กันเสมอ
+เปิด `ExpectedOutput_SectionX.md` ของ Section นั้นไว้คู่กันเสมอ
 
 ---
 
@@ -83,28 +88,18 @@ Section 4 → ShipmentSection4_Exercise.java + ExpectedOutput_Section4.md
 **ตัวอย่าง: ถ้าได้รับมอบหมาย Section 2**
 
 ```bash
-# ลบไฟล์ Section อื่นที่ไม่ใช่ของตัวเอง
-git rm ShipmentSection1_Exercise.java
-git rm ShipmentSection3_Exercise.java
-git rm ShipmentSection4_Exercise.java
+git rm src/main/java/com/example/ShipmentSection1_Exercise.java
+git rm src/main/java/com/example/ShipmentSection3_Exercise.java
+git rm src/main/java/com/example/ShipmentSection4_Exercise.java
 git rm ExpectedOutput_Section1.md
 git rm ExpectedOutput_Section3.md
 git rm ExpectedOutput_Section4.md
 
-# Commit การลบ
 git commit -m "remove: ลบ Section ที่ไม่ใช่ของตัวเองออก"
 git push origin main
 ```
 
-> เก็บไว้เฉพาะไฟล์ของ Section ตัวเอง + README.md เท่านั้น
-
-**โครงสร้างที่ถูกต้องหลังลบ (ตัวอย่าง Section 2):**
-```
-java-shipment-exercise/
-├── ShipmentSection2_Exercise.java   ← เก็บไว้
-├── ExpectedOutput_Section2.md       ← เก็บไว้
-└── README.md                        ← เก็บไว้เสมอ
-```
+> เก็บไว้เฉพาะ Section ของตัวเอง + `pom.xml` + `ShipmentTest.java` + `README.md`
 
 ---
 
@@ -121,35 +116,95 @@ java-shipment-exercise/
 
 ---
 
-### Step 5 — Compile และ Run
+### Step 5 — รันด้วย Maven Test
 
-**ตรวจสอบ Java ก่อน:**
-```bash
-java -version
-javac -version
-```
-ต้องได้ version 17 ขึ้นไป ถ้ายังไม่มีดาวน์โหลดได้ที่ https://adoptium.net
+ตรวจสอบก่อนว่ามี Maven ในเครื่อง:
 
-**Compile และ Run (แทน X ด้วยเลข Section):**
 ```bash
-javac ShipmentSectionX_Exercise.java
-java  ShipmentSectionX_Exercise
+mvn -version
 ```
 
-เปรียบเทียบผลลัพธ์กับ `ExpectedOutput_SectionX.md`
+ถ้ายังไม่มี ดาวน์โหลดได้ที่ https://maven.apache.org/download.cgi
+
+#### รัน Test ทั้งหมด
+
+```bash
+mvn test
+```
+
+#### รัน Test เฉพาะ Section ของตัวเอง
+
+```bash
+# Section 1
+mvn -Dtest=ShipmentTest#sec1* test
+
+# Section 2
+mvn -Dtest=ShipmentTest#sec2* test
+
+# Section 3
+mvn -Dtest=ShipmentTest#sec3* test
+
+# Section 4
+mvn -Dtest=ShipmentTest#sec4* test
+```
+
+#### ผลลัพธ์ที่ต้องการเห็น (ตัวอย่าง Section 1)
+
+```
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.example.ShipmentTest
+[INFO]
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] BUILD SUCCESS
+```
+
+> `Failures: 0` และ `BUILD SUCCESS` = แก้ Bug ถูกต้องทุกจุด ✅
+
+#### ถ้า Test ยังไม่ผ่าน ให้ดูบรรทัดนี้
+
+```
+expected: <120.0> but was: <300.0>
+```
+
+แปลว่าค่าที่คำนวณได้ไม่ตรงกับที่คาดหวัง — กลับไปแก้ Bug ในไฟล์ Exercise
 
 ---
 
 ### Step 6 — Push และส่งงาน
 
+เมื่อ `mvn test` ผ่านแล้ว:
+
 ```bash
-git add ShipmentSectionX_Exercise.java
+git add src/main/java/com/example/ShipmentSectionX_Exercise.java
 git commit -m "fix: แก้ไข TODO Section X เสร็จสมบูรณ์"
 git push origin main
 ```
 
 **ส่ง link repo ให้อาจารย์:**  
 `https://github.com/your-username/java-shipment-exercise`
+
+---
+
+## 🧪 Test Cases ใน ShipmentTest.java
+
+ไฟล์ `src/test/java/com/example/ShipmentTest.java` มี test ครอบคลุมทุก Section:
+
+| Test Method | ทดสอบอะไร | ผลที่คาดหวัง |
+|-------------|----------|-------------|
+| `sec1_standard_3kg` | TH001: 3.0 กก. STANDARD | 120.00 บาท |
+| `sec1_express_1_5kg` | TH002: 1.5 กก. EXPRESS | 150.00 บาท |
+| `sec1_standard_5kg` | TH003: 5.0 กก. STANDARD | 200.00 บาท |
+| `sec1_express_2kg` | TH004: 2.0 กก. EXPRESS | 200.00 บาท |
+| `sec1_standard_10kg` | TH005: 10.0 กก. STANDARD | 400.00 บาท |
+| `sec1_totalCost` | ยอดรวม SpeedEx | 1,070.00 บาท |
+| `sec2_totalCost` | ยอดรวม FlashMove | 1,070.00 บาท |
+| `sec3_totalCost` | ยอดรวม RocketShip | 1,240.00 บาท |
+| `sec4_totalCost` | ยอดรวม SwiftCargo | 1,310.00 บาท |
+| `edge_zeroWeight` | น้ำหนัก 0 กก. | 0.00 บาท |
+| `edge_emptyCompany` | ไม่มี Shipment | 0.00 บาท |
 
 ---
 
@@ -163,6 +218,7 @@ git push origin main
 | ตัวเลขสลับ STANDARD/EXPRESS | if-condition ผิด | A (Sec 3) |
 | ยอดรวมผิด (น้อยกว่าที่ควร) | loop วนไม่ครบ | C (Sec 3, 4) |
 | ไม่มีบรรทัดรายการใดแสดง | `printSummary()` ไม่มี loop | G/D |
+| `BUILD FAILURE` ใน mvn | มี test ไม่ผ่าน — อ่าน expected/actual | แก้ Bug ต่อ |
 
 ---
 
@@ -170,11 +226,9 @@ git push origin main
 
 - [ ] Fork repo แล้ว
 - [ ] Clone ลงเครื่องแล้ว
-- [ ] ลบไฟล์ Section อื่นออกแล้ว (เหลือแค่ Section ของตัวเอง)
+- [ ] ลบไฟล์ Section อื่นออกแล้ว
 - [ ] แก้ TODO ครบทุกจุด
-- [ ] `javac` ผ่าน ไม่มี error
-- [ ] `java` รันได้ ไม่มี Exception
-- [ ] ผลลัพธ์ตรงกับ ExpectedOutput ทุกบรรทัด
-- [ ] ยอดรวมมี comma เช่น `1,070.00`
+- [ ] `mvn test` ผ่าน — ขึ้น `BUILD SUCCESS`
+- [ ] `Failures: 0, Errors: 0`
 - [ ] `git push` ขึ้น GitHub แล้ว
 - [ ] ส่ง link repo ให้อาจารย์แล้ว
